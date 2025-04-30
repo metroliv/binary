@@ -5,7 +5,7 @@ import ScrollToTop from "./components/ScrollToTop";
 // Import pages
 import Dashboard from "./pages/dashboard";
 import LoginScreen from "./pages/login-screen";
-import RedirectHandler from "./pages/login-screen/RedirectHandler"; // Newly added
+import RedirectHandler from "./pages/redirect-screen/RedirectHandler"; // ✅ Correct path
 import RegistrationScreen from "./pages/registration-screen";
 import TradingInterface from "./pages/trading-interface";
 import AssetSelectionScreen from "./pages/asset-selection-screen";
@@ -26,7 +26,7 @@ const ProjectRoutes = () => {
     { path: "/account-settings-screen", element: <AccountSettingsScreen /> },
     { path: "/notifications-center", element: <NotificationsCenter /> },
     { path: "/chart-analysis-screen", element: <ChartAnalysisScreen /> },
-    { path: "/redirect", element: <RedirectHandler /> }, // Added route for redirect handler
+    { path: "/redirect", element: <RedirectHandler /> }, // ✅ Handles Deriv redirect
   ]);
 
   return element;

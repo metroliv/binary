@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-const APP_ID = '68037';
+// const APP_ID = '68037';
+const APP_ID = '72322';
 const REDIRECT_URI = encodeURIComponent('http://localhost:3000/redirect'); // Change this on production
 
 const LoginScreen = () => {

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 const APP_ID = '72322';
 
 // ✅ Use your production redirect URI
-const REDIRECT_URI = encodeURIComponent('https://binary-l6tc.vercel.app/redirect');
+const REDIRECT_URI = encodeURIComponent('https://binary-476v.vercel.app/redirect');
 
 const LoginScreen = () => {
   const [isLoading, setIsLoading] = useState(false);

@@ -18,3 +18,6 @@ export default defineConfig({
     allowedHosts: ['.amazonaws.com', '.builtwithrocket.new']
   }
 });
+
+
+// const APP_ID = '68037';

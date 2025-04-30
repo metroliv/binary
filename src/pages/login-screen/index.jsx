@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
 
-// const APP_ID = '68037';
+// Your production Deriv app ID
 const APP_ID = '72322';
-const REDIRECT_URI = encodeURIComponent('http://localhost:3000/redirect'); // Change this on production
+
+// ✅ Use your production redirect URI
+const REDIRECT_URI = encodeURIComponent('https://binary-l6tc.vercel.app/redirect');
 
 const LoginScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track if the user is logged in
-  const [marketData, setMarketData] = useState(null); // To store market data
-  const [accessToken, setAccessToken] = useState(localStorage.getItem('access_token')); // Check for stored token
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [marketData, setMarketData] = useState(null);
+  const [accessToken, setAccessToken] = useState(localStorage.getItem('access_token'));
 
   useEffect(() => {
-    // Fetch market data if not logged in or if logged in
+    // Fetch market data from your backend or API
     const fetchMarketData = async () => {
       try {
-        const response = await fetch('https://api.deriv.com/market-data'); // Placeholder for market data API
+        const response = await fetch('https://api.deriv.com/market-data'); // Replace if needed
         const data = await response.json();
         setMarketData(data);
       } catch (err) {
@@ -26,25 +28,35 @@ const LoginScreen = () => {
 
     fetchMarketData();
 
-    // Check if the user has a token in localStorage
     if (accessToken) {
       setIsLoggedIn(true);
     }
   }, [accessToken]);
 
+  useEffect(() => {
+    // ✅ Look for token1 in redirect query and store it
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token1');
+
+    if (token) {
+      localStorage.setItem('access_token', token);
+      setAccessToken(token);
+      setIsLoggedIn(true);
+      window.history.replaceState(null, '', '/'); // Clean up query string
+    }
+  }, []);
+
   const handleLogin = () => {
     setIsLoading(true);
     setError('');
     const oauthUrl = `https://oauth.deriv.com/oauth2/authorize?app_id=${APP_ID}&redirect_uri=${REDIRECT_URI}`;
-    
-    // Redirect to OAuth URL
     window.location.href = oauthUrl;
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    localStorage.removeItem('access_token'); // Clear the stored token
-    setAccessToken(null); // Reset access token in state
+    localStorage.removeItem('access_token');
+    setAccessToken(null);
   };
 
   return (
@@ -53,11 +65,11 @@ const LoginScreen = () => {
       <p>Explore the market data even if you're not logged in.</p>
 
       {error && <div style={{ color: 'red', marginBottom: '20px' }}>{error}</div>}
-      
+
       {!isLoggedIn ? (
         <>
-          <button 
-            onClick={handleLogin} 
+          <button
+            onClick={handleLogin}
             style={{ padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px' }}
             disabled={isLoading}
           >
@@ -73,8 +85,8 @@ const LoginScreen = () => {
       ) : (
         <>
           <h3>Welcome Back!</h3>
-          <button 
-            onClick={handleLogout} 
+          <button
+            onClick={handleLogout}
             style={{ padding: '10px 20px', backgroundColor: '#dc3545', color: '#fff', border: 'none', borderRadius: '5px' }}
           >
             Logout
